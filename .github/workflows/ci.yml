@@ -124,7 +124,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ env.OWNER_LC }}/golang-web
+          images: ghcr.io/${{ env.OWNER_LC }}/go-todo-web
           flavor: latest=true
           tags: |
             type=semver,pattern=v{{version}}
@@ -137,7 +137,7 @@ jobs:
             org.opencontainers.image.description=HTTP web server with Prometheus metrics in Go
             org.opencontainers.image.licenses=MIT
             org.opencontainers.image.version=${{  github.ref_name }}"
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/AndriyKalashnykov/golang-web/main/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/AndriyKalashnykov/go-todo-web/main/README.md
             io.artifacthub.package.maintainers=[{\"name\":\"Andriy Kalashnykov\",\"email\":\"andriykalashnykov@gmail.com\"}]
             io.artifacthub.package.license=MIT
 

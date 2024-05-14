@@ -72,10 +72,10 @@ docker-push:
 
 ## pushes to kubernetes cluster
 k8s-apply:
-	sed -e 's/v0.0.1/$(VERSION)/' golang-web.yaml | kubectl apply -f -
+	sed -e 's/v0.0.1/$(VERSION)/' go-todo-web.yaml | kubectl apply -f -
 
 k8s-delete:
-	kubectl delete -f golang-web.yaml
+	kubectl delete -f go-todo-web.yaml
 
 #release: @ Create and push a new tag
 release:

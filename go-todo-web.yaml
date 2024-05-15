@@ -19,7 +19,7 @@ spec:
 
       containers:
       - name: go-todo-web
-        image: ghcr.io/andriykalashnykov/go-todo-web:v0.0.1
+        image: ghcr.io/andriykalashnykov/go-todo-web:v0.0.2
 
         # resource limits
         resources:

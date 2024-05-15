@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: golang-web
+  name: go-todo-web
 spec:
   selector:
     matchLabels:
-      app: golang-web
+      app: go-todo-web
   replicas: 1
   template:
     metadata:
       labels:
-        app: golang-web
+        app: go-todo-web
       annotations:
         sidecar.istio.io/inject: "false"
 
     spec:
 
       containers:
-      - name: golang-web
-        image: ghcr.io/andriykalashnykov/golang-web:v0.0.1
+      - name: go-todo-web
+        image: ghcr.io/andriykalashnykov/go-todo-web:v0.0.1
 
         # resource limits
         resources:
@@ -89,9 +89,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: golang-web-service
+  name: go-todo-web-service
   labels:
-    app: golang-web
+    app: go-todo-web
 spec:
   ports:
   - port: 8080
@@ -99,4 +99,4 @@ spec:
     targetPort: 8080
     protocol: TCP
   selector:
-    app: golang-web
+    app: go-todo-web

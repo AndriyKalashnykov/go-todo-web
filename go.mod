@@ -2,7 +2,7 @@ module github.com/AndriyKalashnykov/go-todo-web
 
 go 1.23.0
 
-toolchain go1.24.3
+toolchain go1.24.4
 
 require github.com/labstack/echo/v4 v4.13.4
 

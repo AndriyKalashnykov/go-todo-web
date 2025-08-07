@@ -1,6 +1,6 @@
 module github.com/AndriyKalashnykov/go-todo-web
 
-go 1.24.5
+go 1.24.6
 
 require github.com/labstack/echo/v4 v4.13.4
 

@@ -4,13 +4,13 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://app.renovatebot.com/dashboard#github/AndriyKalashnykov/go-todo-web)
 # HTTP web server in Go
 
-# Pulling image from GitHub Container Registry
+## Pulling image from GitHub Container Registry
 
 ```
 docker pull ghcr.io/andriykalashnykov/go-todo-web:latest
 ```
 
-# Environment variables available to image
+## Environment variables available to image
 
 * PORT - listen port, defaults to 8080
 * APP_CONTEXT - base context path of app, defaults to '/'
@@ -22,14 +22,15 @@ docker pull ghcr.io/andriykalashnykov/go-todo-web:latest
 * MY_POD_IP - k8s pod IP
 * MY_POD_SERVICE_ACCOUNT - service account of k8s pod
 
-# Tagging
+## Tagging
+
 ```
 newtag=v0.0.1
 git commit -a -m "changes for new tag $newtag" && git push
 git tag $newtag && git push origin $newtag
 ```
 
-# Deleting tag
+## Deleting a tag
 
 ```
 # delete local tag, then remote

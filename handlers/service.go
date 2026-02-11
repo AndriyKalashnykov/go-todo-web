@@ -1,13 +1,14 @@
 package handlers
 
 import (
-	"github.com/AndriyKalashnykov/go-todo-web/models"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
+
+	"github.com/AndriyKalashnykov/go-todo-web/models"
+	"github.com/labstack/echo/v5"
 )
 
-func CreateTodo(c echo.Context) error {
+func CreateTodo(c *echo.Context) error {
 	todo := new(models.Todo)
 	if err := c.Bind(todo); err != nil {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Message: "Invalid request"})
@@ -15,11 +16,11 @@ func CreateTodo(c echo.Context) error {
 	models.AddTodo(*todo)
 	return c.JSON(http.StatusCreated, todo)
 }
-func Todos(c echo.Context) error {
+func Todos(c *echo.Context) error {
 	return c.JSON(http.StatusOK, models.GetAllTodo())
 
 }
-func GetTodo(c echo.Context) error {
+func GetTodo(c *echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	todo := models.GetTodo(id)
@@ -28,7 +29,7 @@ func GetTodo(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, todo)
 }
-func UpdateTodo(c echo.Context) error {
+func UpdateTodo(c *echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	todo := models.GetTodo(id)
@@ -43,7 +44,7 @@ func UpdateTodo(c echo.Context) error {
 	update.Completed = todo.Completed
 	return c.JSON(http.StatusOK, todo)
 }
-func DeleteTodo(c echo.Context) error {
+func DeleteTodo(c *echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := models.DeleteTodoByID(id); err != nil {
 		return c.JSON(http.StatusNotFound, ErrorResponse{Message: "Todo not found"})

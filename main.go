@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/AndriyKalashnykov/go-todo-web/handlers"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v5"
+	"github.com/labstack/echo/v5/middleware"
 )
 
 func main() {
@@ -13,8 +15,10 @@ func main() {
 
 	// Middleware
 	e.Pre(middleware.RemoveTrailingSlash())
-	e.Use(middleware.Logger())
-	e.Use(middleware.CORS())
+	e.Use(middleware.RequestLogger())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 	e.Use(middleware.Recover())
 
 	// Routes
@@ -24,5 +28,7 @@ func main() {
 	e.DELETE("/delete/:id", handlers.DeleteTodo)
 	e.PATCH("/update/:id", handlers.UpdateTodo)
 	// Start the server
-	e.Logger.Fatal(e.Start(":8080"))
+	if err := e.Start(":8080"); err != nil {
+		log.Fatal(err)
+	}
 }

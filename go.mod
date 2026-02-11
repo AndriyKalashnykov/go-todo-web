@@ -3,7 +3,7 @@ module github.com/AndriyKalashnykov/go-todo-web
 go 1.25.5
 
 require (
-	github.com/labstack/echo/v4 v4.15.0
+	github.com/labstack/echo/v5 v5.0.3
 	github.com/labstack/echo/v5 v5.0.3
 )
 

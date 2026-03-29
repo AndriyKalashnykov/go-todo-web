@@ -1,4 +1,4 @@
-# CLAUDE.md
+# Go Todo Web
 
 ## Project Overview
 
@@ -6,11 +6,12 @@ Go Todo Web is an HTTP REST API for managing todo items, built with the [Echo](h
 
 ## Tech Stack
 
-- **Language**: Go 1.26+
+- **Language**: Go 1.26
 - **Framework**: Echo v5
 - **Container**: Docker (multi-arch: amd64, arm64)
 - **Registry**: GitHub Container Registry (ghcr.io)
 - **CI**: GitHub Actions
+- **Linting**: golangci-lint v2, hadolint
 - **Dependency Management**: Renovate
 
 ## Project Structure
@@ -24,16 +25,18 @@ go-todo-web.yaml     # Kubernetes deployment manifest
 version.txt          # Current version tag
 ```
 
-## Build & Development
+## Common Commands
 
 ```bash
 make help            # Show all available targets
-make deps            # Verify required tool dependencies
+make deps            # Install and verify required tool dependencies
+make deps-check      # Show required Go versions and gvm status
 make build           # Build the Go binary
 make run             # Run the application locally (port 8080)
 make test            # Run tests with coverage
-make lint            # Run golangci-lint
+make lint            # Run golangci-lint and hadolint
 make ci              # Run lint, test, and build (full CI pipeline)
+make ci-run          # Run GitHub Actions workflow locally using act
 ```
 
 ## API Endpoints
@@ -49,7 +52,7 @@ make ci              # Run lint, test, and build (full CI pipeline)
 ## Docker
 
 ```bash
-make image           # Build docker image
+make image-build     # Build docker image
 make image-test-fg   # Run container in foreground with test env vars
 make image-run-bg    # Run container in background
 make image-stop      # Stop background container
@@ -65,8 +68,16 @@ make k8s-delete      # Delete from kubernetes cluster
 
 ## CI/CD
 
-- **ci.yml**: Runs staticcheck (golangci-lint via reviewdog), tests, and build on push/PR. On tag push, builds and pushes multi-arch OCI image to GHCR.
-- **cleanup-runs.yml**: Weekly cleanup of old workflow runs (retains 7 days, minimum 5 runs).
+GitHub Actions runs on every push to `main`, tags `v*`, and pull requests.
+
+| Job | Triggers | Steps |
+|-----|----------|-------|
+| **ci** | push, PR, tags | Lint, Test, Build |
+| **build-oci-image** | tag push only | Build and push multi-arch OCI image to GHCR |
+
+A cleanup workflow (`cleanup-runs.yml`) removes old workflow runs weekly (retains 7 days, minimum 5 runs).
+
+[Renovate](https://docs.renovatebot.com/) keeps dependencies up to date with platform automerge enabled.
 
 ## Skills
 

@@ -11,6 +11,12 @@ func (e *NotFoundError) Error() string {
 var todos []*Todo
 var currentID int
 
+// Reset clears all todos and resets the ID counter.
+func Reset() {
+	todos = nil
+	currentID = 0
+}
+
 func AddTodo(todo Todo) {
 	currentID++
 	todo.ID = currentID

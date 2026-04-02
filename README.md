@@ -1,5 +1,6 @@
 [![CI](https://github.com/AndriyKalashnykov/go-todo-web/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/AndriyKalashnykov/go-todo-web/actions/workflows/ci.yml)
 [![Hits](https://hits.sh/github.com/AndriyKalashnykov/go-todo-web.svg?view=today-total&style=plastic)](https://hits.sh/github.com/AndriyKalashnykov/go-todo-web/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://app.renovatebot.com/dashboard#github/AndriyKalashnykov/go-todo-web)
 
 # Go Todo Web
@@ -49,8 +50,11 @@ Run `make help` to see all available targets.
 
 | Target | Description |
 |--------|-------------|
-| `make test` | Run tests with coverage |
+| `make test` | Run tests with coverage and race detection |
 | `make lint` | Run golangci-lint and hadolint |
+| `make format` | Format Go source files |
+| `make static-check` | Run all static analysis checks |
+| `make coverage-check` | Verify test coverage meets minimum threshold |
 
 ### Docker
 
@@ -63,7 +67,7 @@ Run `make help` to see all available targets.
 | `make image-cli-bg` | Get into console of background container |
 | `make image-logs` | Tail docker logs |
 | `make image-stop` | Stop container running in background |
-| `make image-push` | Push image to Docker Hub |
+| `make image-push` | Push image to registry |
 
 ### Kubernetes
 
@@ -76,17 +80,23 @@ Run `make help` to see all available targets.
 
 | Target | Description |
 |--------|-------------|
-| `make ci` | Run lint, test, and build (CI pipeline) |
-| `make ci-run` | Run GitHub Actions workflow locally using [act](https://github.com/nektos/act) |
+| `make ci` | Run full local CI pipeline |
+| `make ci-run` | Run GitHub Actions workflow locally using act |
 
 ### Utilities
 
 | Target | Description |
 |--------|-------------|
+| `make help` | Show available make targets |
 | `make deps` | Install and verify required tool dependencies |
 | `make deps-check` | Show required Go versions and gvm status |
+| `make deps-act` | Install act for local CI |
+| `make deps-hadolint` | Install hadolint for Dockerfile linting |
+| `make deps-prune` | Remove unused dependencies |
+| `make deps-prune-check` | Verify no prunable dependencies (CI gate) |
 | `make version` | Print current version (tag) |
 | `make release` | Create and push a new tag (semver validated) |
+| `make renovate-bootstrap` | Install nvm and npm for Renovate |
 | `make renovate-validate` | Validate Renovate configuration |
 
 ## API Endpoints
@@ -116,21 +126,23 @@ Run `make help` to see all available targets.
 | `MY_POD_IP` | K8s pod IP |
 | `MY_POD_SERVICE_ACCOUNT` | Service account of k8s pod |
 
-## Pulling Image from GitHub Container Registry
-
-```bash
-docker pull ghcr.io/andriykalashnykov/go-todo-web:latest
-```
-
 ## CI/CD
 
 GitHub Actions runs on every push to `main`, tags `v*`, and pull requests.
 
 | Job | Triggers | Steps |
 |-----|----------|-------|
-| **ci** | push, PR, tags | Lint, Test, Build |
+| **static-check** | push, PR, tags | Lint (golangci-lint + hadolint) |
+| **build** | push, PR, tags | Build Go binary |
+| **test** | push, PR, tags | Test with coverage threshold |
 | **build-oci-image** | tag push only | Build and push multi-arch OCI image to GHCR |
 
 A cleanup workflow removes old workflow runs weekly (retains 7 days, minimum 5 runs).
 
 [Renovate](https://docs.renovatebot.com/) keeps dependencies up to date with platform automerge enabled.
+
+## Pulling Image from GitHub Container Registry
+
+```bash
+docker pull ghcr.io/andriykalashnykov/go-todo-web:latest
+```

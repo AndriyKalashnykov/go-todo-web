@@ -15,7 +15,7 @@ NEWTAG             ?= $(shell bash -c 'read -p "Please provide a new tag (curren
 GVM_SHA               := dd652539fa4b771840846f8319fad303c7d0a8d2 # v1.0.22
 GOLANGCI_LINT_VERSION := v2.1.6
 HADOLINT_VERSION      := 2.12.0
-ACT_VERSION           := 0.2.86
+ACT_VERSION           := 0.2.87
 NVM_VERSION           := 0.40.4
 NODE_VERSION          := 22
 
